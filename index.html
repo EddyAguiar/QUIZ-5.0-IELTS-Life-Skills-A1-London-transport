@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎧 IELTS Life Skills A1: London transport</title>
+<style>
+  /* ----- RESET & GLOBAL ----- */
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { background: linear-gradient(135deg, #f0f4f8 0%, #cfdfed 100%); color: #1e2a3e; line-height: 1.6; padding: 20px; min-height: 100vh; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 20px; }
+  h1 { color: #1e466e; margin-bottom: 10px; font-size: 2.1rem; }
+  .description { color: #2c5282; font-size: 1rem; margin-bottom: 12px; }
+
+  /* AUDIO SECTION */
+  .audio-section { background: #e1f0fa; padding: 18px; border-radius: 14px; margin-bottom: 20px; border: 1px solid #90cdf4; }
+  .audio-section p { font-weight: 700; margin-bottom: 12px; color: #2b6cb0; }
+  audio { width: 100%; border-radius: 12px; outline: none; }
+
+  /* TRANSCRIPT TOGGLE */
+  .toggle-reading { margin: 0 auto 18px auto; display: block; background: #2c7da0; color: white; padding: 10px 24px; border-radius: 40px; cursor: pointer; border: none; font-weight: 700; width: fit-content; transition: 0.2s; }
+  .toggle-reading:hover { background: #1f5e7e; transform: scale(1.01); }
+  .reading-text { background: white; border-radius: 12px; padding: 18px; margin-bottom: 18px; border-left: 6px solid #2c7da0; display: none; max-height: 550px; overflow-y: auto; }
+  .reading-text.show { display: block; }
+  .reading-text h2 { color: #2c7da0; margin-bottom: 12px; font-size: 1.4rem; }
+  .speaker-block { background: #f9fafc; margin: 16px 0; padding: 14px; border-radius: 14px; }
+  .eng { font-weight: 500; line-height: 1.6; color: #1f3a5f; }
+  .por { background: #eef2ff; margin-top: 10px; padding: 10px; border-radius: 12px; color: #1e466e; font-style: normal; font-size: 0.9rem; border-left: 3px solid #2c7da0; }
+  .keyword { font-weight: 700; color: #c4450c; background: #fff4e6; padding: 0 4px; border-radius: 4px; }
+
+  /* QUIZ CONTAINER */
+  .quiz-container { background: white; border-radius: 24px; box-shadow: 0 12px 28px rgba(0,0,0,0.1); overflow: hidden; margin-top: 10px; }
+  .progress-container { background: #f8fafc; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
+  .progress-bar { height: 8px; background: #e2e8f0; border-radius: 5px; flex-grow: 1; margin: 0 12px; overflow: hidden; }
+  .progress { height: 100%; background: linear-gradient(90deg, #2c7da0, #48bb78); width: 0%; transition: width 0.3s; }
+  .question-count { font-weight: 700; color: #2d3748; }
+  .question-container { padding: 20px 28px; }
+  .question-text { font-weight: 800; margin-bottom: 20px; font-size: 1.2rem; color: #1e466e; background: #f0f9ff; padding: 10px 14px; border-radius: 20px; }
+  .option { margin: 12px 0; padding: 12px 16px; background: #f9f9ff; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; }
+  .option:hover { background: #eef2ff; border-color: #90cdf4; transform: translateX(6px); }
+  .option input { margin-right: 14px; transform: scale(1.1); accent-color: #2c7da0; }
+  .option.correct { background: #d1fae5; border-color: #48bb78; color: #14532d; }
+  .option.incorrect { background: #ffe4e2; border-color: #fda4af; color: #991b1b; }
+  .feedback { padding: 12px 18px; border-radius: 16px; margin: 16px 0; display: none; font-weight: 500; }
+  .feedback.correct { background: #d4edda; border-left: 6px solid #2ecc71; color: #155724; }
+  .feedback.incorrect { background: #f8d7da; border-left: 6px solid #e74c3c; color: #721c24; }
+  .explanation { background: #f1f9fe; padding: 12px 18px; border-radius: 16px; margin-top: 12px; border-left: 5px solid #3498db; display: none; font-size: 0.95rem; }
+  .buttons { display: flex; justify-content: space-between; padding: 16px 28px; border-top: 1px solid #e2e8f0; }
+  button { padding: 10px 22px; background: #2c7da0; color: white; border: none; border-radius: 40px; cursor: pointer; font-weight: 700; transition: 0.15s; }
+  button:hover { background: #1e5a77; transform: translateY(-2px); }
+  button:disabled { background: #b9c8dc; cursor: not-allowed; transform: none; }
+  #restart-btn { background: #48bb78; }
+  .results { text-align: center; padding: 32px 20px; display: none; background: white; border-radius: 28px; }
+  .score { font-size: 1.8rem; margin: 20px 0; font-weight: 800; color: #1e466e; }
+  .circle-chart { width: 170px; margin: 0 auto; }
+  .circle-bg { fill: none; stroke: #e2e8f0; stroke-width: 3.8; }
+  .circle { fill: none; stroke-width: 2.8; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dasharray 0.6s ease; }
+  footer { margin-top: 30px; text-align: center; color: #2c5282; font-size: 0.85rem; }
+  footer a { color: #1e466e; font-weight: 600; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  @media (max-width: 700px) { .buttons { flex-direction: column; gap: 10px; } button { width: 100%; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🎧 IELTS Life Skills A1: London transport</h1>
+    <p class="description">Listen to the audio about London transport options. Answer 20 multiple-choice questions. Check the transcript with Portuguese translation.</p>
+  </header>
+
+  <!-- AUDIO SECTION -->
+  <div class="audio-section">
+    <p>🎵 <strong>LISTENING AUDIO</strong></p>
+    <audio controls width="100%">
+      <source src="London transport – A2 English Listening Test.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <!-- TRANSCRIPT BUTTON + bilingual text -->
+  <button id="toggle-reading" class="toggle-reading" aria-expanded="false">📄 Show Full Transcript (English + Português)</button>
+  <div class="reading-text" id="reading-text">
+    <h2>📝 Complete Transcript + Tradução em Português</h2>
+    
+    <div class="speaker-block">
+      <div class="eng"><strong>🎤 NARRATOR:</strong><br>
+      Taxis in London are a popular icon. They're called <span class="keyword">cabs</span>. The driver is called a <span class="keyword">'cabbie'</span> or cab driver, and they're usually black. <span class="keyword">Remember to give the cabbie a small tip</span>.<br><br>
+      <span class="keyword">Cycling</span> around London is <span class="keyword">healthy</span> but a bit <span class="keyword">dangerous</span>.<br><br>
+      Traditional red <span class="keyword">double-decker buses</span> give you a <span class="keyword">good view of the city</span> but they can be a bit <span class="keyword">slow</span> in the morning or evening traffic.<br><br>
+      There's always an <span class="keyword">underground</span> or tube station nearby in London, and it's the <span class="keyword">quickest</span> way to get around. The only problem is it's <span class="keyword">always full of people</span>. Buy your ticket at the ticket office and then check there are no problems with your line — there are sometimes closed for works or problems. Finding your way around is easy.<br><br>
+      The <span class="keyword">escalators</span> save you walking up and down the stairs. In some stations there are <span class="keyword">lifts</span> but these get very crowded at busy times.<br><br>
+      As you can see, the platform curves but the trains are straight. This creates a space that people could fall into, so a recorded voice says <span class="keyword">'mind the gap'</span> over and over. In case you forget, it's also written on the platform.</div>
+      <div class="por"><strong>🇧🇷 Português:</strong><br>
+      <strong>NARRADOR:</strong><br>
+      Os táxis em Londres são um ícone popular. Eles são chamados de <span class="keyword">cabs</span>. O motorista é chamado de <span class="keyword">'cabbie'</span> ou motorista de cab, e geralmente são pretos. <span class="keyword">Lembre-se de dar uma pequena gorjeta ao taxista</span>.<br><br>
+      <span class="keyword">Andar de bicicleta</span> em Londres é <span class="keyword">saudável</span>, mas um pouco <span class="keyword">perigoso</span>.<br><br>
+      Os tradicionais <span class="keyword">ônibus vermelhos de dois andares</span> oferecem uma <span class="keyword">boa vista da cidade</span>, mas podem ser um pouco <span class="keyword">lentos</span> no trânsito da manhã ou da noite.<br><br>
+      Sempre há uma estação de <span class="keyword">metrô</span> próxima em Londres, e é a maneira <span class="keyword">mais rápida</span> de se locomover. O único problema é que está <span class="keyword">sempre cheio de pessoas</span>. Compre seu bilhete na bilheteria e verifique se não há problemas na sua linha — às vezes estão fechadas para obras ou problemas. É fácil encontrar o caminho.<br><br>
+      As <span class="keyword">escadas rolantes</span> poupam você de subir e descer as escadas. Em algumas estações há <span class="keyword">elevadores</span>, mas eles ficam muito cheios em horários de pico.<br><br>
+      Como você pode ver, a plataforma é curva, mas os trens são retos. Isso cria um espaço onde as pessoas podem cair, então uma voz gravada diz <span class="keyword">'cuidado com o vão'</span> repetidamente. Caso você se esqueça, também está escrito na plataforma.</div>
+    </div>
+    <p style="margin-top:12px;">🎧 IELTS tip: Listen for specific details about transport options, advantages, disadvantages, and safety information.</p>
+  </div>
+
+  <!-- QUIZ CONTAINER 20 questions -->
+  <div class="quiz-container">
+    <div class="progress-container">
+      <div class="question-count">Question <span id="current">1</span> of <span id="total">20</span></div>
+      <div class="progress-bar" aria-hidden="true"><div class="progress" id="progress"></div></div>
+    </div>
+    <div class="question-container">
+      <div class="question-text" id="question"></div>
+      <div class="options-container" id="options"></div>
+      <div class="feedback" id="feedback" role="status"></div>
+      <div class="explanation" id="explanation"></div>
+    </div>
+    <div class="buttons">
+      <button id="prev-btn" disabled>◀ Previous</button>
+      <button id="next-btn">Next ▶</button>
+    </div>
+    <div class="results" id="results">
+      <h2>🎯 IELTS Life Skills A1 Practice Completed!</h2>
+      <svg class="circle-chart" viewBox="0 0 36 36" width="170" height="170">
+        <circle class="circle-bg" cx="18" cy="18" r="16"></circle>
+        <circle class="circle" cx="18" cy="18" r="16" stroke="#2c7da0" stroke-dasharray="0,100"></circle>
+        <g class="circle-chart-text"><text x="18" y="20.5" text-anchor="middle" font-size="8" fill="#2c7da0">0%</text></g>
+      </svg>
+      <div class="score" id="final-score">Score: 0/20</div>
+      <button id="restart-btn">⟳ Restart Practice</button>
+    </div>
+  </div>
+
+  <footer>
+    Inglês Profissional · Preparação para Exames · Cambridge · IELTS · TOEFL · Duolingo English Test (DET)<br>
+    <span class="copyright">© English VClass • Edson D'Aguiar</span>
+    • WhatsApp ➡️<a href="https://wa.me/5541991725009" target="_blank">• VClass English •</a>
+  </footer>
+</div>
+
+<script>
+  // 20 QUESTIONS based on the transcript (7 original + 13 new)
+  const quizData = [
+    // Original questions from the transcript
+    { q: "1. A 'cabbie' is a ...", opts: ["A - taxi", "B - black taxi", "C - taxi driver"], ans: "C", exp: "Transcript: 'The driver is called a <span class='keyword'>'cabbie'</span> or cab driver.'" },
+    { q: "2. It is common to give a tip to taxi drivers.", opts: ["A - True", "B - False"], ans: "A", exp: "Transcript: 'Remember to give the cabbie a <span class='keyword'>small tip</span>.'" },
+    { q: "3. Cycling around London is ...", opts: ["A - not very healthy", "B - not very safe", "C - the best option"], ans: "B", exp: "Transcript: 'Cycling around London is healthy but a bit <span class='keyword'>dangerous</span>.'" },
+    { q: "4. Traditional red double-decker buses are the best option if ...", opts: ["A - you want to see the city", "B - you want to travel fast", "C - you want to travel cheap"], ans: "A", exp: "Transcript: 'Traditional red double-decker buses give you a <span class='keyword'>good view of the city</span>.'" },
+    { q: "5. The underground is the best option if ...", opts: ["A - you want to travel fast", "B - you want to be relaxed", "C - you need the cheapest option"], ans: "A", exp: "Transcript: 'it's the <span class='keyword'>quickest</span> way to get around.'" },
+    { q: "6. There are lifts ...", opts: ["A - in all underground stations", "B - in some underground stations", "C - and they are faster than the stairs at busy times"], ans: "B", exp: "Transcript: 'In some stations there are <span class='keyword'>lifts</span> but these get very crowded at busy times.'" },
+    { q: "7. In the underground, the message 'Mind the gap' means that ...", opts: ["A - you might fall into a hole", "B - you must keep a distance from other passengers", "C - you might be hit by a running train"], ans: "A", exp: "Transcript: 'This creates a space that people could fall into, so a recorded voice says <span class='keyword'>'mind the gap'</span>.'" },
+
+    // New questions created from the transcript
+    { q: "8. What colour are London taxis usually?", opts: ["A - Red", "B - Black", "C - Yellow", "D - Blue"], ans: "B", exp: "Transcript: 'and they're usually <span class='keyword'>black</span>.'" },
+    { q: "9. What is another name for London taxis?", opts: ["A - Cabs", "B - Cars", "C - Vans", "D - Coaches"], ans: "A", exp: "Transcript: 'Taxis in London are a popular icon. They're called <span class='keyword'>cabs</span>.'" },
+    { q: "10. What is one disadvantage of cycling in London?", opts: ["A - It's expensive", "B - It's dangerous", "C - It's slow", "D - It's uncomfortable"], ans: "B", exp: "Transcript: 'Cycling around London is healthy but a bit <span class='keyword'>dangerous</span>.'" },
+    { q: "11. What is a disadvantage of traditional red double-decker buses?", opts: ["A - They are expensive", "B - They are slow in traffic", "C - They are dangerous", "D - They are difficult to find"], ans: "B", exp: "Transcript: 'but they can be a bit <span class='keyword'>slow</span> in the morning or evening traffic.'" },
+    { q: "12. What is the main problem with the London underground?", opts: ["A - It's too expensive", "B - It's always full of people", "C - It's difficult to find stations", "D - It's dangerous"], ans: "B", exp: "Transcript: 'The only problem is it's <span class='keyword'>always full of people</span>.'" },
+    { q: "13. Where should you buy your underground ticket?", opts: ["A - Online", "B - At the ticket office", "C - From a machine", "D - From the driver"], ans: "B", exp: "Transcript: 'Buy your ticket at the <span class='keyword'>ticket office</span>.'" },
+    { q: "14. What should you check before entering the underground?", opts: ["A - The weather", "B - If there are any problems with your line", "C - The price of tickets", "D - The time"], ans: "B", exp: "Transcript: 'then check there are no problems with your line — there are sometimes closed for works or problems.'" },
+    { q: "15. What saves you from walking up and down stairs in the underground?", opts: ["A - Lifts", "B - Escalators", "C - Ramps", "D - Moving walkways"], ans: "B", exp: "Transcript: 'The <span class='keyword'>escalators</span> save you walking up and down the stairs.'" },
+    { q: "16. When do lifts get very crowded in the underground?", opts: ["A - At night", "B - At busy times", "C - On weekends", "D - During holidays"], ans: "B", exp: "Transcript: 'but these get very <span class='keyword'>crowded at busy times</span>.'" },
+    { q: "17. Why is the 'Mind the gap' message important?", opts: ["A - Because trains arrive quickly", "B - Because the platform curves and trains are straight", "C - Because the platform is slippery", "D - Because the station is dark"], ans: "B", exp: "Transcript: 'the platform curves but the trains are straight. This creates a space that people could fall into.'" },
+    { q: "18. Where else is the 'Mind the gap' message written?", opts: ["A - On the train", "B - On the platform", "C - On the ticket", "D - On the map"], ans: "B", exp: "Transcript: 'In case you forget, it's also <span class='keyword'>written on the platform</span>.'" },
+    { q: "19. What is the quickest way to get around London?", opts: ["A - Bus", "B - Taxi", "C - Underground", "D - Bicycle"], ans: "C", exp: "Transcript: 'it's the <span class='keyword'>quickest</span> way to get around.'" },
+    { q: "20. According to the text, what gives you a good view of the city?", opts: ["A - The underground", "B - A taxi", "C - A double-decker bus", "D - A bicycle"], ans: "C", exp: "Transcript: 'Traditional red <span class='keyword'>double-decker buses</span> give you a good view of the city.'" }
+  ];
+
+  // DOM elements
+  const questionEl = document.getElementById('question');
+  const optionsEl = document.getElementById('options');
+  const feedbackEl = document.getElementById('feedback');
+  const explanationEl = document.getElementById('explanation');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const restartBtn = document.getElementById('restart-btn');
+  const resultsDiv = document.getElementById('results');
+  const progressFill = document.getElementById('progress');
+  const currentSpan = document.getElementById('current');
+  const totalSpan = document.getElementById('total');
+  const finalScoreSpan = document.getElementById('final-score');
+  const circleSvg = document.querySelector('.circle');
+  const circleText = document.querySelector('.circle-chart-text text');
+  const readingDiv = document.getElementById('reading-text');
+  const toggleReadingBtn = document.getElementById('toggle-reading');
+
+  let currentQuestion = 0, score = 0;
+  let userAnswers = new Array(quizData.length).fill(null);
+
+  function updateProgressBar() { progressFill.style.width = `${((currentQuestion+1)/quizData.length)*100}%`; }
+  function showFeedbackForCurrent() {
+    const selected = userAnswers[currentQuestion];
+    if (!selected) return;
+    const isCorrect = (selected === quizData[currentQuestion].ans);
+    feedbackEl.textContent = isCorrect ? '✓ Correct! Good listening.' : '✗ Not quite. Listen again or check the transcript.';
+    feedbackEl.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+    feedbackEl.style.display = 'block';
+    explanationEl.innerHTML = `<strong>📌 Explanation:</strong> ${quizData[currentQuestion].exp}`;
+    explanationEl.style.display = 'block';
+  }
+
+  function renderQuestion() {
+    const q = quizData[currentQuestion];
+    currentSpan.textContent = currentQuestion+1;
+    questionEl.textContent = q.q;
+    optionsEl.innerHTML = '';
+    const saved = userAnswers[currentQuestion];
+    q.opts.forEach((opt, idx) => {
+      const optLetter = opt.charAt(0);
+      const div = document.createElement('div'); div.className = 'option';
+      if (saved !== null) { if (optLetter === q.ans) div.classList.add('correct'); else if (optLetter === saved && saved !== q.ans) div.classList.add('incorrect'); }
+      const radio = document.createElement('input'); radio.type = 'radio'; radio.name = 'answer'; radio.value = optLetter; radio.id = `opt_${currentQuestion}_${idx}`;
+      if (saved !== null) radio.disabled = true; if (saved === optLetter) radio.checked = true;
+      const label = document.createElement('label'); label.htmlFor = radio.id; label.textContent = ` ${opt}`;
+      div.appendChild(radio); div.appendChild(label);
+      if (saved === null) radio.addEventListener('change', (e) => { if(e.target.checked){ userAnswers[currentQuestion] = optLetter; if(optLetter === q.ans) score++; renderQuestion(); updateNavButtons(); } });
+      optionsEl.appendChild(div);
+    });
+    if (saved !== null) showFeedbackForCurrent(); else { feedbackEl.style.display = 'none'; explanationEl.style.display = 'none'; }
+    updateNavButtons(); updateProgressBar();
+  }
+
+  function updateNavButtons() {
+    prevBtn.disabled = (currentQuestion === 0);
+    const isAnswered = (userAnswers[currentQuestion] !== null);
+    if (currentQuestion === quizData.length-1) {
+      nextBtn.textContent = 'Finish';
+      if (isAnswered) { nextBtn.removeEventListener('click', finishQuiz); nextBtn.addEventListener('click', finishQuiz, { once: true }); }
+      else nextBtn.removeEventListener('click', finishQuiz);
+    } else { nextBtn.textContent = 'Next'; nextBtn.removeEventListener('click', finishQuiz); }
+    nextBtn.disabled = !isAnswered;
+  }
+
+  function showNext() { if (currentQuestion < quizData.length-1) { currentQuestion++; renderQuestion(); } }
+  function showPrev() { if (currentQuestion > 0) { currentQuestion--; renderQuestion(); } }
+  function finishQuiz() {
+    document.querySelector('.question-container').style.display = 'none';
+    document.querySelector('.buttons').style.display = 'none';
+    resultsDiv.style.display = 'block';
+    const percent = (score/quizData.length)*100;
+    finalScoreSpan.textContent = `Score: ${score}/${quizData.length}`;
+    circleSvg?.setAttribute('stroke-dasharray', `${percent}, 100`);
+    if(circleText) circleText.textContent = `${Math.round(percent)}%`;
+    if(percent<50) circleSvg?.setAttribute('stroke','#e74c3c');
+    else if(percent<80) circleSvg?.setAttribute('stroke','#f39c12');
+    else circleSvg?.setAttribute('stroke','#2ecc71');
+  }
+  function restartQuiz() {
+    currentQuestion = 0; score = 0; userAnswers.fill(null);
+    document.querySelector('.question-container').style.display = 'block';
+    document.querySelector('.buttons').style.display = 'flex';
+    resultsDiv.style.display = 'none';
+    nextBtn.removeEventListener('click', finishQuiz);
+    renderQuestion();
+  }
+
+  prevBtn.addEventListener('click', showPrev);
+  nextBtn.addEventListener('click', () => { if(currentQuestion === quizData.length-1 && userAnswers[currentQuestion] !== null) finishQuiz(); else showNext(); });
+  restartBtn.addEventListener('click', restartQuiz);
+  toggleReadingBtn.addEventListener('click', () => { readingDiv.classList.toggle('show'); toggleReadingBtn.textContent = readingDiv.classList.contains('show') ? '📖 Hide Transcript' : '📄 Show Full Transcript (English + Português)'; });
+  totalSpan.textContent = quizData.length;
+  renderQuestion();
+  readingDiv.classList.remove('show');
+</script>
+</body>
+</html>
